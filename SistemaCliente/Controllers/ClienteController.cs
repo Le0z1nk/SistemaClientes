@@ -12,8 +12,14 @@ namespace SistemaCliente.Controllers;
 public class ClienteController : ControllerBase
 {
     private readonly string _caminhoUtils = @"C:\Program Files (x86)\OpenCobolIDE\GnuCOBOL\bin\cobcrun.exe";
-    private readonly string _caminhoCobol = @"C:\Users\leoam\source\repos\ProjetoFinal\SistemaCliente\Cobol";
-    private readonly string _arquivoResposta = @"C:\Users\leoam\source\repos\ProjetoFinal\SistemaCliente\Cobol\resposta.txt";
+    private readonly string _caminhoCobol;
+    private readonly string _arquivoResposta;
+
+    public ClienteController(string caminhoCustom = null)
+    {
+        _caminhoCobol = caminhoCustom ?? @"C:\Users\leoam\source\repos\ProjetoFinal\SistemaCliente\Cobol";
+        _arquivoResposta = Path.Combine(_caminhoCobol, "resposta.txt");
+    }
 
     [HttpPost]
     public IActionResult Cadastrar([FromBody] Cliente cliente)
@@ -32,8 +38,6 @@ public class ClienteController : ControllerBase
         if (resultado.StartsWith("DUPLICATE_KEY"))
             return Conflict(new { mensagem = "Este código de cliente já existe no arquivo indexado." });
 
-        if (resultado.StartsWith("NOT_FOUND"))
-            return NotFound(new { mensagem = "Cliente não encontrado." });
         var novoCliente = LayoutCobol(resultado);
         return CreatedAtAction(nameof(ConsultarPorCodigo), new { codigo = novoCliente.Codigo }, novoCliente);
 
@@ -49,17 +53,20 @@ public class ClienteController : ControllerBase
             return StatusCode(500, "Erro na consulta");
 
         string resultado = System.IO.File.ReadAllText(_arquivoResposta).TrimEnd();
+        if (resultado.StartsWith("NOT_FOUND"))
+            return NotFound(new { mensagem = "Cliente não encontrado." });
+
         var cliente = LayoutCobol(resultado);
         return Ok(cliente);
     }
 
     [HttpPut("{codigo}")]
-    public IActionResult Atualizar(string codigo, [FromBody] Cliente cliente)
+    public IActionResult Atualizar(string codigo, [FromBody] ContatoDTO dto)
     {
         codigo = codigo = codigo.PadRight(5)[..5];
-        string nome = (cliente.Nome ?? "").PadRight(50)[..50];
-        string telefone = (cliente.Telefone ?? "").PadRight(15)[..15];
-        string email = (cliente.Email ?? "").PadRight(40)[..40];
+        string nome = (dto.Nome ?? "").PadRight(50)[..50];
+        string telefone = (dto.Telefone ?? "").PadRight(15)[..15];
+        string email = (dto.Email ?? "").PadRight(40)[..40];
         string args = $"ALT{codigo}{nome}{telefone}{email}";
         ExecutarCobol(args);
         if (!System.IO.File.Exists(_arquivoResposta))

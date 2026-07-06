@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Clientes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Sistema de Clientes</h1>
+    <section>
+        <h2>Cadastrar</h2>
+        <input id="cadCodigo" placeholder="Código">
+        <input id="cadNome" placeholder="Nome">
+        <input id="cadTelefone" placeholder="Telefone">
+        <input id="cadEmail" placeholder="Email">
+        <button onclick="cadastrar()">Cadastrar</button>
+    </section>
+    <section>
+        <h2>Consultar</h2>
+        <input id="conCodigo" placeholder="Código">
+        <button onclick="consultar()">
+            Consultar
+        </button>
+
+<pre id="resultadoConsulta"></pre>
+    </section>
+    <section>
+        <h2>Atualizar</h2>
+        <input id="altCodigo" placeholder="Código">
+        <input id="altNome" placeholder="Nome">
+        <input id="altTelefone" placeholder="Telefone">
+        <input id="altEmail" placeholder="Email">
+        <button onclick="atualizar()">
+            Atualizar
+        </button>
+    </section>
+    <script src="script.js"></script>
+</body>
+</html>

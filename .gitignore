@@ -1,5 +1,7 @@
 /.vs
 SistemaCliente/bin
 SistemaCliente/obj
+SistemaCliente.Tests/bin
+SistemaCliente.Tests/obj
 appsettings.json
 appsettings.Development.json

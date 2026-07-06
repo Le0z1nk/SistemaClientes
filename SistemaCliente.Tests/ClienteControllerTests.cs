@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SistemaCliente.Controllers;
 using SistemaCliente.Model;
-using Xunit;
 
-namespace SistemaCliente.Controllers;
+namespace SistemaCliente.Tests;
 
 [Collection("Sequential")]
 public class ClienteControllerTests
 {
-    private readonly ClienteControllerTests _controller;
+    private readonly ClienteController _controller;
     private readonly string _caminhoCobolTestes = @"C:\Users\leoam\source\repos\ProjetoFinal\SistemaCliente\CobolTests";
 
 
@@ -38,9 +38,9 @@ public class ClienteControllerTests
             Email = "teste@automatizado.com"
         };
 
-        var resultado = _controller.Cadastrar(novoCliente) as OkObjectResult;
+        var resultado = _controller.Cadastrar(novoCliente) as CreatedAtActionResult;
         Assert.NotNull(resultado);
-        Assert.Equal(200, resultado.StatusCode);
+        Assert.Equal(201, resultado.StatusCode);
         var clienteRetornado = resultado.Value as Cliente;
         Assert.NotNull(clienteRetornado);
         Assert.Equal("99999", clienteRetornado.Codigo);

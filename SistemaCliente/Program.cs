@@ -13,9 +13,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
-
 app.UseHttpsRedirection();
-
+app.UseStaticFiles();
 app.UseAuthorization();
 
 app.UseSwagger();
@@ -26,5 +25,4 @@ app.UseSwaggerUI(c =>
 });
 
 app.MapControllers();
-
 app.Run();

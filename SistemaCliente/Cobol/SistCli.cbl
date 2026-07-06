@@ -63,12 +63,10 @@
            OPEN I-O CLIENTES
            OPEN OUTPUT RESPOSTA-FILE
            MOVE LK-CODIGO TO REQ-CODIGO
-           *> Primeiro lemos para garantir que ele existe e travar o registro
            READ CLIENTES
                INVALID KEY
                    MOVE "NOT_FOUND" TO REG-RESPOSTA
                NOT INVALID KEY
-                   *> Atualiza apenas os campos permitidos na memória
                    MOVE LK-TELEFONE TO REQ-TELEFONE
                    MOVE LK-EMAIL    TO REQ-EMAIL
                    REWRITE REG-CLIENTE
