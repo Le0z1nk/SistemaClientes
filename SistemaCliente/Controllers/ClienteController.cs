@@ -86,8 +86,6 @@ public class ClienteController : ControllerBase
         if (System.IO.File.Exists(_arquivoResposta))
             System.IO.File.Delete(_arquivoResposta);
 
-        //string caminhoDll = Path.Combine(_caminhoCobol, "SistCli.dll");
-
         var startInfo = new ProcessStartInfo
         {
             FileName = _caminhoUtils,

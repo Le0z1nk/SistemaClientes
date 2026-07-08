@@ -22,7 +22,6 @@
        01  REG-RESPOSTA     PIC X(110).
        WORKING-STORAGE SECTION.
        01  WS-FS             PIC X(02).
-       01  WS-ENCONTRADO     PIC X(01) VALUE "N".
 
        01  LK-PARAMETROS.
            05 LK-OPERACAO   PIC X(03).
@@ -66,11 +65,14 @@
            READ CLIENTES
                INVALID KEY
                    MOVE "NOT_FOUND" TO REG-RESPOSTA
+                   WRITE REG-RESPOSTA
+                   END-WRITE
                NOT INVALID KEY
                    MOVE LK-TELEFONE TO REQ-TELEFONE
                    MOVE LK-EMAIL    TO REQ-EMAIL
                    REWRITE REG-CLIENTE
                    WRITE REG-RESPOSTA FROM REG-CLIENTE
+                   END-WRITE
            END-READ
            CLOSE CLIENTES
            CLOSE RESPOSTA-FILE.
